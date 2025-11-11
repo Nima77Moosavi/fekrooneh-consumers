@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  consumer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python leaderboard/leaderboard_consumer.py
+    volumes:
+      - .:/code
+    environment:
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis
+    restart: on-failure
+
+  redis:
+    image: redis:7
+    restart: always
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6380:6379"   # ✅ expose on a different host port so it doesn’t clash with your FastAPI app’s Redis
+
+volumes:
+  redis_data:
+
