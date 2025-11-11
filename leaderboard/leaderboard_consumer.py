@@ -37,7 +37,7 @@ async def main():
                 if event["event"] in ("user_created", "checkin"):
                     user_key = f"user:{event['user_id']}"
                     xp = int(event["xp"])
-                    await r.zincrby("leaderboard:global", xp, user_key)
+                    await r.zadd("leaderboard:global", {user_key: xp})
 
                 # Acknowledge message
                 await r.xack(STREAM, GROUP, msg_id)
