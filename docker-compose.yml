@@ -10,18 +10,10 @@ services:
       - .:/code
     environment:
       - REDIS_URL=redis://redis:6379
-    depends_on:
-      - redis
     restart: on-failure
+    networks:
+      - fekrooneh
 
-  redis:
-    image: redis:7
-    restart: always
-    volumes:
-      - redis_data:/data
-    ports:
-      - "6380:6379"   # ✅ expose on a different host port so it doesn’t clash with your FastAPI app’s Redis
-
-volumes:
-  redis_data:
-
+networks:
+  fekrooneh:
+    external: true
