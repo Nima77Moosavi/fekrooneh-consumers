@@ -34,7 +34,7 @@ async def main():
                 print("Got event:", event)
 
                 # Example: update leaderboard sorted set
-                if event["event"] in ("user_created", "checkin"):
+                if event["event"] in ("user_created", "checkin", "sync_user"):
                     user_key = f"user:{event['user_id']}"
                     xp = int(event["xp"])
                     await r.zadd("leaderboard:global", {user_key: xp})
